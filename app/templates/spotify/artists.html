@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for name in album_names %}
+    <p>{{forloop.counter}}. {{name}}</p>
+{% endfor %}
+{% endblock content %}
