@@ -5,8 +5,10 @@ from django.conf import settings
 import requests
 import base64
 
-# Create your views here.
 def spotify_connect(request):
+    '''
+    Send the user to the login and authorization pages for spotify
+    '''
 
     client_id = settings.SPOTIFY_ID
     redirect_uri = settings.SPOTIFY_REDIRECT_URI
@@ -23,12 +25,11 @@ def spotify_connect(request):
     )
 
     return HttpResponseRedirect(mod_url)
+  
 
-    
-def spotify_callback(request):
-    token = _get_token(request)
+def get_user_artists(request):
 
-    # Getting all albums
+    token = _spotify_callback(request)
     url = 'https://api.spotify.com/v1/me/albums'
     header = {'Authorization': 'Bearer {}'.format(token)}
     album_names = []
@@ -50,7 +51,22 @@ def spotify_callback(request):
         'album_names': album_names
     })
 
+
+def _spotify_callback(request):
+    '''
+    Redirect uri view for Spotify that transfers the code for an auth
+    token and returns that auth token for use
+    '''
+    token = _get_token(request)
+    return token
+    # Add the token to the given user and save it for user
+
+
 def _get_token(request):
+    '''
+    Transfers the code that was sent from Spotify for an auth
+    token and returns that auth token for use
+    '''
     payload = {
         'grant_type': 'authorization_code',
         'code': request.GET.get('code'),
@@ -64,4 +80,3 @@ def _get_token(request):
 
     tokens = requests.post(url, data=payload, headers=header)
     return tokens.json()['access_token']
-

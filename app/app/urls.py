@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import IndexView
+from django.contrib.auth.views import LoginView, LogoutView
+from .views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('oauth/', include('social_django.urls', namespace='social')),
+    path('', index, name='index'),
     path('spotify/', include('spotify.urls')),
 ]

@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
+
+    'spotify',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -69,6 +75,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -90,6 +99,14 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.spotify.SpotifyOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -131,6 +148,12 @@ STATIC_URL = '/static/'
 
 SITE_URL = os.getenv('SITE_URL')
 
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'index'
+
 SPOTIFY_REDIRECT_URI = '{}/spotify/callback'.format(SITE_URL)
 SPOTIFY_ID = os.getenv('SPOTIFY_ID')
 SPOTIFY_SECRET = os.getenv('SPOTIFY_SECRET')
+SOCIAL_AUTH_SPOTIFY_KEY = os.getenv('SPOTIFY_ID')
+SOCIAL_AUTH_SPOTIFY_SECRET = os.getenv('SPOTIFY_SECRET')
