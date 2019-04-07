@@ -47,7 +47,8 @@ INSTALLED_APPS = [
 
     'social_django',
 
-    'spotify',
+    'accounts.apps.AccountsConfig',
+    'spotify.apps.SpotifyConfig',
 ]
 
 MIDDLEWARE = [
