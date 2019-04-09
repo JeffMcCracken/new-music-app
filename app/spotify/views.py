@@ -27,7 +27,7 @@ def spotify_connect(request):
     return HttpResponseRedirect(mod_url)
   
 
-def get_user_artists(request):
+def get_user_data(request):
 
     token = _spotify_callback(request)
     url = 'https://api.spotify.com/v1/me/albums'

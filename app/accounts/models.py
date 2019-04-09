@@ -1,27 +1,14 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 
-class User(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='Email Address',
-        max_length=255,
-        unique=True,
-    )
-    password = models.CharField(max_length=128)
-    is_superuser = models.BooleanField(default=False)
-
-    first_name = models.CharField(max_length=255, null=True, blank=True)
-    last_name = models.CharField(max_length=255, null=True, blank=True)
-    profile_image = models.ImageField(
-        verbose_name='Profile Image',
-        null=True,
-        blank=True,
-    )
+class User(AbstractUser):
+    pass
 
 
 class Artist(models.Model):
     # genre, album, track
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL)
     href = models.CharField(max_length=255)
     image = models.ImageField(verbose_name='Artist Photo')
     spotify_id = models.CharField(max_length=255)
@@ -54,9 +41,3 @@ class Track(models.Model):
     spotify_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     track_number = models.PositiveIntegerField()
-
-
-
-
-
-
