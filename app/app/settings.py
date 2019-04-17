@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 DATABASES = {
     'default': {
@@ -157,3 +158,4 @@ SPOTIFY_ID = os.getenv('SPOTIFY_ID')
 SPOTIFY_SECRET = os.getenv('SPOTIFY_SECRET')
 SOCIAL_AUTH_SPOTIFY_KEY = os.getenv('SPOTIFY_ID')
 SOCIAL_AUTH_SPOTIFY_SECRET = os.getenv('SPOTIFY_SECRET')
+SOCIAL_ATUH_URL_NAMESPACE = 'social'
