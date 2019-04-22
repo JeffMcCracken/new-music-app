@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Welcome{% endblock title %}
+{% block title %}Home{% endblock title %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock page_styles %}
 
 {% block content %}
-<h1 style="margin-top: 100px">Homepage</h1>
-<p>Hello</p>
+
 <a href="{% url 'spotify:connect' %}">Connect to Spotify</a>
 <a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'artists' %}">Artists</a>
+
 {% endblock content %}

@@ -1,0 +1,27 @@
+.title {
+    color: white;
+}
+
+.artist-card>a:hover {
+    text-decoration: none;
+}
+
+.artist-card:hover p{
+    color: white;
+}
+
+.card-name {
+    text-align: left;
+    font-family: var(--lato);
+    color: white;
+    font-size: 20px;
+}
+
+.card-photo {
+    width: 250px;
+}
+
+.card-photo:hover {
+    background-color: black;
+    opacity: 0.3;
+}

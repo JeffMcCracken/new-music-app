@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Login{% endblock title %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock page_styles %}
+
 {% block content %}
 
 <div align="center" class="welcome">

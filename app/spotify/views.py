@@ -44,7 +44,7 @@ def get_user_data(request):
 
     for i in range(int(total_albums/50)+1):
         for item in response.json()['items']:
-            artists = _save_artist(item['album'], request.user)
+            artists = _save_artist(item['album'], request.user, header)
             album = _save_album(item['album'], artists)
             _save_genres(item['album'], request.user, artists, album)
             _save_tracks(item['album']['tracks'], album)
@@ -55,9 +55,7 @@ def get_user_data(request):
 
     artists = Artist.objects.all()
         
-    return render(request, 'spotify/artists.html', {
-        'artists': artists
-    })
+    return HttpResponseRedirect('/artists')
 
 def _spotify_callback(request):
     '''
@@ -87,7 +85,7 @@ def _get_token(request):
     tokens = requests.post(url, data=payload, headers=header)
     return tokens.json()['access_token']
 
-def _save_artist(album, user):
+def _save_artist(album, user, header):
     '''
     Saves the artist to the user's list of artists, and
     adds info about artist to artist table if the artist
@@ -100,6 +98,15 @@ def _save_artist(album, user):
             spotify_id = artist['id'],
             name = artist['name'],
         )
+        if created:
+            url = 'https://api.spotify.com/v1/artists/' + artist['id']
+            response = requests.get(url, headers=header)
+            response = response.json()
+            obj.image_small = response['images'][2]['url']
+            obj.image_medium = response['images'][1]['url']
+            obj.image_large = response['images'][0]['url']
+            obj.save()
+
         obj.users.add(user)
         objs.append(obj)
 
@@ -117,6 +124,9 @@ def _save_album(album, artists):
         name = album['name'],
         release_date = album['release_date'],
         total_tracks = album['tracks']['total'],
+        art_small = album['images'][2]['url'],
+        art_medium = album['images'][1]['url'],
+        art_large = album['images'][0]['url'],
     )
     for artist in artists:
         obj.artists.add(artist)

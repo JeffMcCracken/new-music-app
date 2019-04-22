@@ -9,9 +9,11 @@ class User(AbstractUser):
 
 class Artist(models.Model):
     # genre, album, track
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='artists')
     href = models.CharField(max_length=255)
-    image = models.ImageField(verbose_name='Artist Photo')
+    image_small = models.CharField(max_length=255, null=True, blank=True)
+    image_medium = models.CharField(max_length=255, null=True, blank=True)
+    image_large = models.CharField(max_length=255, null=True, blank=True)
     spotify_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
 
@@ -21,15 +23,13 @@ class Artist(models.Model):
 
 class Album(models.Model):
     # genre, track
-    artists = models.ManyToManyField(Artist)
+    artists = models.ManyToManyField(Artist, related_name='albums')
     album_type = models.CharField(max_length=255)
     href = models.CharField(max_length=255)
     spotify_id = models.CharField(max_length=128)
-    album_art = models.ImageField(
-        verbose_name='Album Cover',
-        null=True,
-        blank=True,
-    )
+    art_small = models.CharField(max_length=255)
+    art_medium = models.CharField(max_length=255)
+    art_large = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     release_date = models.CharField(max_length=128)
     total_tracks = models.PositiveIntegerField()
@@ -39,9 +39,9 @@ class Album(models.Model):
 
 
 class Genre(models.Model):
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    albums = models.ManyToManyField(Album)
-    artists = models.ManyToManyField(Artist)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='genres')
+    albums = models.ManyToManyField(Album, related_name='genres')
+    artists = models.ManyToManyField(Artist, related_name='genres')
     name = models.CharField(max_length=128)
 
     def __str__(self):
@@ -49,8 +49,8 @@ class Genre(models.Model):
 
 
 class Track(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    artists = models.ManyToManyField(Artist)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='tracks')
+    artists = models.ManyToManyField(Artist, related_name='tracks')
     duration_ms = models.PositiveIntegerField()
     spotify_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)

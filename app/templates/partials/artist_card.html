@@ -1,0 +1,12 @@
+{% load static %}
+
+<div align="center" class="col-sm-3 artist-card">
+    <a href="{% url 'artist_details' artist_id=artist.id %}">
+        {% if artist.image_medium %}
+            <img class="card-photo" src="{{artist.image_medium}}" alt="{{artist.name}} photo">
+        {% else %}
+            <img class="card-photo" src="{{artist.image_large}}" alt="{{artist.name}} photo">
+        {% endif %}
+        <p class="card-name">{{artist.name}}</p>
+    </a>
+</div>

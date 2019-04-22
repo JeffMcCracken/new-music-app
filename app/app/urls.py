@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import index
+from .views import index, artists, artist_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('oauth/', include('social_django.urls', namespace='social')),
     path('', index, name='index'),
+    path('artists/', artists, name='artists'),
+    path('artists/<artist_id>', artist_details, name='artist_details'),
+    path('oauth/', include('social_django.urls', namespace='social')),
     path('spotify/', include('spotify.urls')),
 ]

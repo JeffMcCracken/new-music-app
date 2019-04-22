@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Artists{% endblock title %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{% static 'css/artists.css' %}">
+{% endblock page_styles %}
+
+{% block content %}
+
+<h1 class="title" align='center'>Artists</h1>
+
+<div class="container">
+    <div class="row">
+        {% for artist in artists %}
+            {% include 'partials/artist_card.html' %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

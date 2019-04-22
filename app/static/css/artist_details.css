@@ -1,0 +1,23 @@
+.title {
+    color: white;
+}
+
+.album-card>a:hover {
+    text-decoration: none;
+}
+
+.card-name {
+    text-align: left;
+    font-family: var(--lato);
+    color: white;
+}
+
+.card-photo {
+    height: 250px;
+    width: 250px;
+}
+
+.card-photo:hover {
+    background-color: black;
+    opacity: 0.3;
+}
